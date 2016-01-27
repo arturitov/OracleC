@@ -1,3 +1,5 @@
+Name: Arturo Valery
+CS username: valeryuz
 Welcome.
 
 You have sucessfully obtained a copy of the contents in the oracle repository.

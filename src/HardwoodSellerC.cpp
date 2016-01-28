@@ -25,6 +25,7 @@ struct customer_data
 };
 
 customer_data readInputFile(string);
+double deliveryTime(double qty);
 
 int main() {
 
@@ -34,6 +35,7 @@ int main() {
 	std::vector<double> delivery_time;
 	double dt;
 	double cost = 0.00;
+	double qt;
 
 	WoodItem Cherry("Cherry", 2.5, 5.95);
 	WoodItem Curly_Maple("Curly_Maple", 2.5, 5.95);
@@ -44,46 +46,55 @@ int main() {
 
 	for (int i = 0; i < customer.wood.size(); i++)
 	{
-		// Add check for over max amount
-		if (customer.wood[i] == "Cherry")
+		if (customer.quty[i] <= 1000)
 		{
-			// dt = Cherry.baseDeliveryTime * delivery_time(customer.wood[i+1]);
-			// delivery_time.push_back(dt);
-			cost += Cherry.price * customer.quty[i];
-		}
-		else if (customer.wood[i] == "Curly Maple")
-		{
-			// dt = Curly_Maple.baseDeliveryTime * delivery_time(customer.wood[i+1]);
-			// delivery_time.push_back(dt);
-			cost += Curly_Maple.price * customer.quty[i];
-		}
-		else if (customer.wood[i] == "Genuine Mahogany")
-		{
-			// dt = Genuine_Mahogany.baseDeliveryTime * delivery_time(customer.wood[i+1]);
-			// delivery_time.push_back(dt);
-			cost += Genuine_Mahogany.price * customer.quty[i];
-		}
-		else if (customer.wood[i] == "Wenge")
-		{
-			// dt = Wenge.baseDeliveryTime * delivery_time(customer.wood[i+1]);
-			// delivery_time.push_back(dt);
-			cost += Wenge.price * customer.quty[i];
-		}
-		else if (customer.wood[i] == "White Oak")
-		{
-			// dt = White_Oak.baseDeliveryTime * delivery_time(customer.wood[i+1]);
-			// delivery_time.push_back(dt);
-			cost += White_Oak.price * customer.quty[i];
-		}
-		else if (customer.wood[i] == "Sawdust")
-		{
-			// t = Sawdust.baseDeliveryTime * delivery_time(customer.wood[i+1]);
-			// delivery_time.push_back(dt);
-			cost += Sawdust.price * customer.quty[i];
+			if (customer.wood[i] == "Cherry")
+			{
+				dt = Cherry.baseDeliveryTime * deliveryTime(customer.quty[i]);
+				delivery_time.push_back(dt);
+				cost += Cherry.price * customer.quty[i];
+			}
+			else if (customer.wood[i] == "Curly Maple")
+			{
+				dt = Curly_Maple.baseDeliveryTime * deliveryTime(customer.quty[i]);
+				delivery_time.push_back(dt);
+				cost += Curly_Maple.price * customer.quty[i];
+			}
+			else if (customer.wood[i] == "Genuine Mahogany")
+			{
+				dt = Genuine_Mahogany.baseDeliveryTime * deliveryTime(customer.quty[i]);
+				delivery_time.push_back(dt);
+				cost += Genuine_Mahogany.price * customer.quty[i];
+			}
+			else if (customer.wood[i] == "Wenge")
+			{
+				dt = Wenge.baseDeliveryTime * deliveryTime(customer.quty[i]);
+				delivery_time.push_back(dt);
+				cost += Wenge.price * customer.quty[i];
+			}
+			else if (customer.wood[i] == "White Oak")
+			{
+				dt = White_Oak.baseDeliveryTime * deliveryTime(customer.quty[i]);
+				delivery_time.push_back(dt);
+				cost += White_Oak.price * customer.quty[i];
+			}
+			else if (customer.wood[i] == "Sawdust")
+			{
+				dt = Sawdust.baseDeliveryTime * deliveryTime(customer.quty[i]);
+				delivery_time.push_back(dt);
+				cost += Sawdust.price * customer.quty[i];
+			}
 		}
 	}
 
 	cout << cost << endl;
+	double max_dt = 0;
+	for (int i = 0; i < delivery_time.size(); ++i)
+	{
+		if (delivery_time[i] >= max_dt){
+			max_dt = delivery_time[i];
+		} 
+	}
 
 	return 0;
 }
@@ -125,7 +136,33 @@ customer_data readInputFile(string inputFilePath) {
 /*
  * Method to compute the deliveryTime
  */
-double deliveryTime() {
+double deliveryTime(double qty) {
 	double deliveryETA = 0.0;
+
+	if (qty >= 1 && qty < 101)
+	{
+		deliveryETA = 1;
+	}
+	else if (qty >=101 && qty < 201)
+	{
+		deliveryETA = 2;
+	}
+	else if (qty >=201 && qty < 301)
+	{
+		deliveryETA = 3;
+	}
+	else if (qty >=301 && qty < 401)
+	{
+		deliveryETA = 4;
+	}
+	else if (qty >=401 && qty < 501)
+	{
+		deliveryETA = 5;
+	}
+	else if (qty >=501 && qty < 1001)
+	{
+		deliveryETA = 5.5;
+	}
+
 	return deliveryETA;
 }

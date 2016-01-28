@@ -11,6 +11,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <iomanip>
 #include <stdlib.h>
 #include "WoodItem.h"
 using namespace std;
@@ -33,9 +34,13 @@ int main() {
 	customer_data customer;
 	customer = readInputFile(inputFile);
 	std::vector<double> delivery_time;
+	std::vector<double> price;
 	double dt;
 	double cost = 0.00;
 	double qt;
+    const char separator    = ' ';
+    const int nameWidth     = 16;
+    const int numWidth      = 5;
 
 	WoodItem Cherry("Cherry", 2.5, 5.95);
 	WoodItem Curly_Maple("Curly_Maple", 2.5, 5.95);
@@ -53,41 +58,46 @@ int main() {
 				dt = Cherry.baseDeliveryTime * deliveryTime(customer.quty[i]);
 				delivery_time.push_back(dt);
 				cost += Cherry.price * customer.quty[i];
+				price.push_back(Cherry.price * customer.quty[i]);
 			}
 			else if (customer.wood[i] == "Curly Maple")
 			{
 				dt = Curly_Maple.baseDeliveryTime * deliveryTime(customer.quty[i]);
 				delivery_time.push_back(dt);
 				cost += Curly_Maple.price * customer.quty[i];
+				price.push_back(Curly_Maple.price * customer.quty[i]);
 			}
 			else if (customer.wood[i] == "Genuine Mahogany")
 			{
 				dt = Genuine_Mahogany.baseDeliveryTime * deliveryTime(customer.quty[i]);
 				delivery_time.push_back(dt);
 				cost += Genuine_Mahogany.price * customer.quty[i];
+				price.push_back(Genuine_Mahogany.price * customer.quty[i]);
 			}
 			else if (customer.wood[i] == "Wenge")
 			{
 				dt = Wenge.baseDeliveryTime * deliveryTime(customer.quty[i]);
 				delivery_time.push_back(dt);
 				cost += Wenge.price * customer.quty[i];
+				price.push_back(Wenge.price * customer.quty[i]);
 			}
 			else if (customer.wood[i] == "White Oak")
 			{
 				dt = White_Oak.baseDeliveryTime * deliveryTime(customer.quty[i]);
 				delivery_time.push_back(dt);
 				cost += White_Oak.price * customer.quty[i];
+				price.push_back(White_Oak.price * customer.quty[i]);
 			}
 			else if (customer.wood[i] == "Sawdust")
 			{
 				dt = Sawdust.baseDeliveryTime * deliveryTime(customer.quty[i]);
 				delivery_time.push_back(dt);
 				cost += Sawdust.price * customer.quty[i];
+				price.push_back(Sawdust.price * customer.quty[i]);
 			}
 		}
 	}
 
-	cout << cost << endl;
 	double max_dt = 0;
 	for (int i = 0; i < delivery_time.size(); ++i)
 	{
@@ -95,6 +105,16 @@ int main() {
 			max_dt = delivery_time[i];
 		} 
 	}
+
+	cout << left << setw(10) << setfill(separator) << "Name: " << customer.name << endl;
+	cout << left << setw(10) << setfill(separator) << "Address: " << customer.address << endl;
+	cout << right << setw(nameWidth) << setfill(separator) << "Type"  << "\tQTY" << "\tWood Price\n";
+	for (int i = 0; i < customer.wood.size(); ++i)
+	{
+		cout << right << setw(nameWidth) << setfill(separator) << customer.wood[i] << "    " << customer.quty[i] << " BF    $" << price[i] << endl;
+	}
+	cout << "Delivery Time: " << max_dt << " hours\n";
+	cout << "Total: $" << cost << endl;
 
 	return 0;
 }
